@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Afficher des choix avec JS</title>
+</head>
+<body>
+    <h1>Choisissez un produit :</h1>
+    <div id="zone-selection"></div>
+    
+    <div class="form-group">
+        <label for="input-quantite">Quantité :</label>
+        <input type="number" id="input-quantite" value="1" min="1" max="1000">
+        <button id="btn-ajouter">afficher prix</button>
+    </div>
+    <label for="recherche-produit">Rechercher un produit :</label>
+    <input type="search" id="recherche-produit">
+    <p>Noms des produits : <span id="noms-produits"></span></p>
+    <div id="liste-produits"></div>
+    <script>
+        const produits = [
+            { id: 101, nom: "Ordinateur Portable", prix: 800, quantity: 10 },
+            { id: 102, nom: "Souris Sans Fil", prix: 25, quantity: 20 },
+            { id: 103, nom: "Écran 4K", prix: 350, quantity: 5 },
+            { id: 104, nom: "Clavier Mécanique", prix: 70, quantity: 15 }
+        ];
+
+        function produitsDisponibles(produits) {
+            return produits.filter(produit => produit.quantity > 0);
+        }
+
+        function nomsDesProduits(produits) {
+            return produits.map(produit => produit.nom);
+        }
+
+        function chercherProduit(produits, recherche) {
+            const terme = recherche.trim().toLowerCase();
+            return produits.filter(produit =>
+                produit.nom.toLowerCase().includes(terme)
+            );
+        }
+
+        function trouverProduit(produits, id) {
+            return produits.find(produit => produit.id === Number(id));
+        }
+
+        function afficherProduits(produits) {
+            const liste = document.getElementById("liste-produits");
+            liste.replaceChildren();
+
+            produits.forEach(produit => {
+                const element = document.createElement("p");
+                element.textContent = `${produit.nom} - ${produit.prix}€ (Stock: ${produit.quantity})`;
+                liste.appendChild(element);
+            });
+        }
+
+        const produitsEnStock = produitsDisponibles(produits);
+        const conteneur = document.getElementById("zone-selection");
+        const selectElement = document.createElement("select");
+        const tva = 0.2;
+        selectElement.id = "menu-produits";
+        produitsEnStock.forEach(produit => {
+            const optionElement = document.createElement("option");
+            optionElement.value = produit.id;
+            optionElement.textContent = `${produit.nom} - ${produit.prix}€ (Stock: ${produit.quantity})`;
+            selectElement.appendChild(optionElement);
+        });
+        conteneur.appendChild(selectElement);
+
+        document.getElementById("noms-produits").textContent =
+            nomsDesProduits(produitsEnStock).join(", ");
+        afficherProduits(produitsEnStock);
+
+        document.getElementById("recherche-produit").addEventListener("input", event => {
+            afficherProduits(chercherProduit(produitsEnStock, event.target.value));
+        });
+
+        const inputQuantite = document.getElementById("input-quantite");
+        const btnAjouter = document.getElementById("btn-ajouter");
+        if (btnAjouter) {
+            btnAjouter.addEventListener("click", () => {
+                const produitSelectionne = trouverProduit(produitsEnStock, selectElement.value);
+                const quantite = Number.parseInt(inputQuantite.value, 10);
+                if (produitSelectionne && quantite > 0 && quantite <= produitSelectionne.quantity) {
+                    const prixTotal = produitSelectionne.prix * quantite;
+                    const prixTVA = prixTotal * (1+tva);
+                    alert(`Le prix total pour ${quantite} ${produitSelectionne.nom}(s) est de ${prixTotal}€ (TVA: ${prixTVA}€).`);
+                } else {
+                    alert("Veuillez sélectionner un produit et entrer une quantité valide.");
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

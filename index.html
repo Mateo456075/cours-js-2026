@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liste de tickets</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="src/main.js" defer></script>
+</head>
+<body>
+  <main class="conteneur">
+    <h1>Tickets de support</h1>
+
+    <section class="panneau" aria-label="Filtres des tickets">
+      <label for="recherche">Rechercher un ticket</label>
+      <input id="recherche" type="search" placeholder="rechercher un ticket">
+
+      <label for="filtre-statut">Filtrer par statut</label>
+      <select id="filtre-statut">
+        <option value="tous">Tous les tickets</option>
+        <option value="ouvert">Ouverts</option>
+        <option value="fermé">Fermés</option>
+      </select>
+    </section>
+
+    <section class="panneau" aria-label="Ajouter un ticket">
+      <h2>Ajouter un ticket</h2>
+      <form id="formulaire-ticket">
+        <label for="titre">Titre du ticket</label>
+        <div class="ligne-formulaire">
+          <input id="titre" name="titre" required maxlength="120" placeholder="Ex. écran noir">
+          <button type="submit">Ajouter</button>
+        </div>
+      </form>
+    </section>
+
+    <section aria-label="Liste des tickets">
+      <p id="compteur" aria-live="polite"></p>
+      <ul id="liste-tickets"></ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,5 +1,25 @@
 # cours javascript et typescript
 
+## exercices 01 et 02
+
+L’exercice 01 (calcul de commande) se trouve dans `src/commande.js`. Pour afficher
+les trois exemples :
+
+```bash
+node src/commande.js
+```
+
+Chaque commande indique l’article, le prix TTC après réduction et si elle a droit
+à la livraison gratuite (à partir de 50 € TTC). La réduction est donnée sous forme
+de proportion : `0.1` correspond à 10 %.
+
+L’exercice 02 (fonctions sur les produits) se trouve dans `src/produits.js`. Ses
+tests automatisés sont dans `src/produits.test.js` :
+
+```bash
+npm test -- --runTestsByPath src/produits.test.js
+```
+
 ## prérequis
 
 - node.js 22.12 ou une version plus récente
@@ -154,4 +174,3 @@ curl 'http://localhost:3000/api/tickets?statut=ouvert'
 ```
 
 la base sqlite est ignorée par git. les étudiants peuvent donc réinitialiser leur environnement sans commiter de fichier généré.
-
